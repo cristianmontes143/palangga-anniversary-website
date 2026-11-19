@@ -1385,3 +1385,489 @@ h1 span {
         font-size: 55px;
     }
 }
+
+/* NEXT ANNIVERSARY COUNTDOWN */
+
+.next-anniversary-section {
+    padding-top: 60px;
+    padding-bottom: 70px;
+    text-align: center;
+}
+
+.next-anniversary-card {
+    max-width: 750px;
+    margin: auto;
+    padding: 45px 25px;
+    border: 1px solid #f1c5d2;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #fff4f7, #ffffff, #fce5ec);
+    box-shadow: 0 12px 35px rgba(169, 67, 100, 0.10);
+}
+
+.next-anniversary-card h2 {
+    color: var(--rose-dark);
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.2rem;
+    margin: 12px 0;
+}
+
+.next-anniversary-subtitle {
+    color: var(--muted);
+    margin-bottom: 25px;
+}
+
+.next-anniversary-button {
+    background: var(--rose);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 15px 28px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.next-anniversary-button:hover {
+    background: var(--rose-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(169, 67, 100, 0.2);
+}
+
+.next-countdown-container {
+    margin-top: 35px;
+    animation: nextCountdownAppear 0.7s ease;
+}
+
+.next-anniversary-date {
+    color: var(--rose-dark);
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+}
+
+.next-countdown {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    max-width: 550px;
+    margin: auto;
+}
+
+.next-countdown-box {
+    background: white;
+    border: 1px solid #f2cbd7;
+    border-radius: 16px;
+    padding: 20px 8px;
+    box-shadow: 0 5px 15px rgba(169, 67, 100, 0.08);
+}
+
+.next-countdown-box strong {
+    display: block;
+    color: var(--rose-dark);
+    font-size: 2rem;
+    font-family: 'Playfair Display', Georgia, serif;
+}
+
+.next-countdown-box span {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.next-anniversary-message {
+    color: var(--rose-dark);
+    font-style: italic;
+    margin-top: 25px;
+    line-height: 1.8;
+}
+
+@keyframes nextCountdownAppear {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .next-anniversary-card {
+        padding: 35px 15px;
+    }
+
+    .next-countdown {
+        gap: 7px;
+    }
+
+    .next-countdown-box {
+        padding: 15px 4px;
+    }
+
+    .next-countdown-box strong {
+        font-size: 1.5rem;
+    }
+}
+
+/* ==========================================
+   FUTURE ANNIVERSARY LETTER
+========================================== */
+
+.future-letter-section {
+    position: relative;
+    z-index: 1;
+    padding-top: 65px;
+    padding-bottom: 75px;
+}
+
+.future-letter-card {
+    max-width: 780px;
+    margin: auto;
+    padding: 50px 35px;
+    text-align: center;
+    border: 1px solid #f1c5d2;
+    border-radius: 28px;
+    background:
+        radial-gradient(circle at top right, #ffe5ed, transparent 45%),
+        linear-gradient(145deg, #fff, #fff4f7);
+    box-shadow: var(--shadow);
+}
+
+.future-letter-card h2 {
+    color: var(--rose-dark);
+    font-size: clamp(30px, 5vw, 43px);
+    margin: 0 0 15px;
+}
+
+.future-letter-intro {
+    max-width: 500px;
+    margin: 0 auto 30px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.future-lock-icon,
+.future-unlocked-heart {
+    width: 85px;
+    height: 85px;
+    margin: 15px auto 20px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: white;
+    font-size: 43px;
+    background: linear-gradient(135deg, #eea1b8, #c85b7f);
+    box-shadow: 0 8px 22px rgba(169, 67, 100, .2);
+    animation: gentleHeartbeat 2s infinite ease-in-out;
+}
+
+.future-locked h3,
+.future-unlocked h3 {
+    color: #754b5c;
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 500;
+    margin: 12px 0;
+}
+
+.future-locked > p:not(.future-unlock-date),
+.future-lock-note {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.future-unlock-date {
+    color: var(--rose-dark);
+    font-family: var(--serif);
+    font-size: 20px;
+    font-style: italic;
+    margin: 22px 0;
+}
+
+.future-countdown {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    max-width: 520px;
+    margin: 25px auto;
+}
+
+.future-countdown-box {
+    padding: 18px 8px;
+    border: 1px solid #f1d2dc;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, .85);
+    box-shadow: 0 6px 18px rgba(169, 67, 100, .07);
+}
+
+.future-countdown-box strong {
+    display: block;
+    color: var(--rose-dark);
+    font-family: var(--serif);
+    font-size: 28px;
+    font-variant-numeric: tabular-nums;
+}
+
+.future-countdown-box span {
+    display: block;
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.future-lock-note {
+    margin-top: 25px;
+    font-style: italic;
+}
+
+.future-unlocked {
+    margin-top: 25px;
+    padding: 30px;
+    border: 1px solid #f2d4de;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, .8);
+    text-align: left;
+    animation: nextCountdownAppear .8s ease both;
+}
+
+.future-unlocked[hidden],
+.future-locked[hidden] {
+    display: none !important;
+}
+
+.future-unlocked-heart {
+    width: 65px;
+    height: 65px;
+    font-size: 32px;
+}
+
+.future-letter-greeting {
+    font-size: 30px;
+    margin: 20px 0;
+}
+
+.future-letter-message {
+    color: #79515e;
+    font-family: var(--serif);
+    font-size: 15px;
+    line-height: 1.9;
+}
+
+.future-letter-message p {
+    margin: 0 0 17px;
+}
+
+.future-letter-signature {
+    text-align: right;
+    font-size: 30px;
+    margin-top: 25px;
+}
+
+/* ==========================================
+   OUR LOVE STORY TIMELINE
+========================================== */
+
+.timeline-section {
+    position: relative;
+    z-index: 1;
+}
+
+.timeline {
+    position: relative;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 10px 0;
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 22px;
+    width: 2px;
+    background: linear-gradient(
+        to bottom,
+        #f4b9ca,
+        #d96b89,
+        #f4b9ca
+    );
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 70px;
+    margin-bottom: 35px;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-marker {
+    position: absolute;
+    top: 25px;
+    left: 0;
+    z-index: 1;
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border: 4px solid #fff4f7;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e98ba6, #c65b7e);
+    color: white;
+    font-size: 17px;
+    box-shadow: 0 4px 14px rgba(169, 67, 100, .2);
+}
+
+.timeline-card {
+    padding: 25px;
+    border: 1px solid #f1d5df;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #fff, #fff8fa);
+    box-shadow: 0 9px 25px rgba(169, 67, 100, .08);
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.timeline-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(169, 67, 100, .13);
+}
+
+.timeline-date {
+    margin: 0 0 9px;
+    color: var(--rose);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+}
+
+.timeline-card h3 {
+    margin: 0 0 12px;
+    color: #754b5c;
+    font-family: var(--serif);
+    font-size: 23px;
+    font-weight: 500;
+}
+
+.timeline-description {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.9;
+    white-space: pre-line;
+}
+
+.timeline-image {
+    display: block;
+    width: 100%;
+    max-height: 330px;
+    margin-top: 20px;
+    object-fit: cover;
+    border: 5px solid white;
+    border-radius: 14px;
+    box-shadow: 0 5px 18px rgba(169, 67, 100, .12);
+}
+
+.timeline-ending {
+    margin: 40px 0 0;
+    text-align: center;
+    color: var(--rose-dark);
+    font-size: 34px;
+}
+
+/* NAVIGATION LINKS */
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+/* RESPONSIVE FUTURE LETTER AND TIMELINE */
+
+@media (max-width: 600px) {
+    .nav-links {
+        gap: 12px;
+    }
+
+    .future-letter-card {
+        padding: 35px 18px;
+    }
+
+    .future-countdown {
+        gap: 7px;
+    }
+
+    .future-countdown-box {
+        padding: 14px 4px;
+    }
+
+    .future-countdown-box strong {
+        font-size: 22px;
+    }
+
+    .future-countdown-box span {
+        font-size: 8px;
+    }
+
+    .future-unlocked {
+        padding: 20px;
+    }
+
+    .future-letter-message {
+        font-size: 13px;
+    }
+
+    .timeline {
+        padding-left: 0;
+    }
+
+    .timeline::before {
+        left: 17px;
+    }
+
+    .timeline-item {
+        padding-left: 52px;
+        margin-bottom: 25px;
+    }
+
+    .timeline-marker {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+
+    .timeline-card {
+        padding: 19px;
+    }
+
+    .timeline-card h3 {
+        font-size: 20px;
+    }
+
+    .timeline-ending {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 380px) {
+    .nav-links {
+        gap: 9px;
+    }
+
+    .nav-link {
+        font-size: 10px;
+    }
+
+    .future-countdown-box strong {
+        font-size: 19px;
+    }
+}
