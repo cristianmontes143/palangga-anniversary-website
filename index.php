@@ -101,16 +101,36 @@ function timelineImage(string $filename): string {
 
     <!-- HERO SECTION -->
     <header class="hero" id="home">
-        <nav class="top-nav">
-            <a class="brand" href="#home">
-                a little something <span>♡</span>
-            </a>
 
-            <div class="nav-links">
-                <a class="nav-link" href="#timeline">Our story</a>
-                <a class="nav-link" href="#memories">Our memories</a>
+        <nav class="top-nav" id="mainNav">
+            <div class="nav-inner">
+                <a class="brand" href="#home">
+                    ♡ Our Little Forever
+                </a>
+
+                <button
+                    class="menu-toggle"
+                    id="menuToggle"
+                    type="button"
+                    aria-label="Open navigation menu"
+                    aria-expanded="false"
+                    aria-controls="navMenu"
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <div class="nav-menu" id="navMenu">
+                    <a class="nav-link" href="#home">Home</a>
+                    <a class="nav-link" href="#letter">Love Letter</a>
+                    <a class="nav-link" href="#timeline">Our Story</a>
+                    <a class="nav-link" href="#memories">Memories</a>
+                    <a class="nav-special" href="#futureLetter">Our Future ♡</a>
+                </div>
             </div>
         </nav>
+
 
         <div class="hero-content">
             <p class="eyebrow">MADE WITH LOVE, JUST FOR YOU</p>
@@ -141,57 +161,60 @@ function timelineImage(string $filename): string {
 
     <main>
 
-        <!-- ORIGINAL ANNIVERSARY COUNTDOWN -->
-        <section class="anniversary-section top-anniversary">
-            <div class="countdown-decoration decoration-left">♡</div>
-            <div class="countdown-decoration decoration-right">♥</div>
 
-            <div class="section-wrap anniversary-content">
-                <p class="eyebrow">♡ A SPECIAL DAY FOR US ♡</p>
+            <!-- OUR LOVE COUNTER -->
+            <section class="anniversary-section top-anniversary">
+                <div class="countdown-decoration decoration-left">♡</div>
+                <div class="countdown-decoration decoration-right">♥</div>
 
-                <h2>Our Love Story</h2>
+                <div class="section-wrap anniversary-content">
+                    <p class="eyebrow">♡ EVERY SECOND WITH YOU ♡</p>
 
-                <p class="anniversary-date">
-                    <?= date("F j, Y", strtotime($anniversaryDate)) ?>
-                </p>
+                    <h2>Our Love Story</h2>
 
-                <div class="countdown-divider">
-                    <span></span>
-                    ♥
-                    <span></span>
+                    <p class="anniversary-date">
+                        Since November 18, 2024
+                    </p>
+
+                    <div class="countdown-divider">
+                        <span></span>
+                        ♥
+                        <span></span>
+                    </div>
+
+                    <p id="anniversaryMessage" class="anniversary-message">
+                        We have been together for...
+                    </p>
+
+                    <div class="countdown" id="countdown" aria-live="off">
+                        <div class="countdown-box">
+                            <strong id="days">0</strong>
+                            <span>Days Together</span>
+                        </div>
+
+                        <div class="countdown-box">
+                            <strong id="hours">0</strong>
+                            <span>Hours</span>
+                        </div>
+
+                        <div class="countdown-box">
+                            <strong id="minutes">0</strong>
+                            <span>Minutes</span>
+                        </div>
+
+                        <div class="countdown-box">
+                            <strong id="seconds">0</strong>
+                            <span>Seconds</span>
+                        </div>
+                    </div>
+
+                    <p class="countdown-love">
+                        And still counting... Every day, every hour, every second,
+                        I will always choose you. I love you, PALANGGA! ♡
+                    </p>
                 </div>
+            </section>
 
-                <p id="anniversaryMessage" class="anniversary-message">
-                    Counting down to our special day…
-                </p>
-
-                <div class="countdown" id="countdown" aria-live="polite">
-                    <div class="countdown-box">
-                        <strong id="days">--</strong>
-                        <span>Days</span>
-                    </div>
-
-                    <div class="countdown-box">
-                        <strong id="hours">--</strong>
-                        <span>Hours</span>
-                    </div>
-
-                    <div class="countdown-box">
-                        <strong id="minutes">--</strong>
-                        <span>Minutes</span>
-                    </div>
-
-                    <div class="countdown-box">
-                        <strong id="seconds">--</strong>
-                        <span>Seconds</span>
-                    </div>
-                </div>
-
-                <p class="countdown-love">
-                    Every second brings me closer to another beautiful memory with you.
-                </p>
-            </div>
-        </section>
 
         <!-- NEXT ANNIVERSARY COUNTDOWN -->
         <section class="next-anniversary-section section-wrap" id="nextAnniversary">

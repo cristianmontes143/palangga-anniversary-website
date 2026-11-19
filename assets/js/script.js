@@ -10,6 +10,39 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeButton = document.getElementById("closeLetter");
     const hint = document.getElementById("envelopeHint");
 
+    // ==========================================
+    // MOBILE NAVIGATION MENU
+    // ==========================================
+
+    const menuToggle = document.getElementById("menuToggle");
+    const navMenu = document.getElementById("navMenu");
+
+    if (menuToggle && navMenu) {
+
+        menuToggle.addEventListener("click", () => {
+            const isOpen = navMenu.classList.toggle("active");
+
+            menuToggle.setAttribute("aria-expanded", String(isOpen));
+
+            menuToggle.setAttribute(
+                "aria-label",
+                isOpen ? "Close navigation menu" : "Open navigation menu"
+            );
+        });
+
+        navMenu.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", () => {
+                navMenu.classList.remove("active");
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.setAttribute("aria-label", "Open navigation menu");
+            });
+        });
+    }
+
+    // ==========================================
+    // OPEN AND CLOSE LOVE LETTER
+    // ==========================================
+
     function openLetter() {
         if (!envelope) return;
 
@@ -53,67 +86,65 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ==========================================
-    // ORIGINAL ANNIVERSARY COUNTDOWN
-    // Changes to count-up after anniversary date
+    // OUR LOVE COUNTER
+    // COUNTING SINCE NOVEMBER 18, 2024
     // ==========================================
 
-    const anniversaryDate = window.ANNIVERSARY_DATE;
+    const relationshipStart = new Date("2024-11-18T00:00:00");
 
-    if (anniversaryDate) {
-        const target = new Date(`${anniversaryDate}T00:00:00`);
+    const daysElement = document.getElementById("days");
+    const hoursElement = document.getElementById("hours");
+    const minutesElement = document.getElementById("minutes");
+    const secondsElement = document.getElementById("seconds");
+    const anniversaryMessage = document.getElementById("anniversaryMessage");
 
-        const daysElement = document.getElementById("days");
-        const hoursElement = document.getElementById("hours");
-        const minutesElement = document.getElementById("minutes");
-        const secondsElement = document.getElementById("seconds");
-        const message = document.getElementById("anniversaryMessage");
+    function updateLoveCounter() {
 
-        function updateCountdown() {
-            const now = new Date();
-            const isPast = now >= target;
+        const now = new Date();
 
-            let difference = Math.abs(target - now);
+        let difference = now.getTime() - relationshipStart.getTime();
 
-            const days = Math.floor(difference / 86400000);
-            difference %= 86400000;
-
-            const hours = Math.floor(difference / 3600000);
-            difference %= 3600000;
-
-            const minutes = Math.floor(difference / 60000);
-            const seconds = Math.floor((difference % 60000) / 1000);
-
-            if (daysElement) {
-                daysElement.textContent = String(days).padStart(2, "0");
-            }
-
-            if (hoursElement) {
-                hoursElement.textContent = String(hours).padStart(2, "0");
-            }
-
-            if (minutesElement) {
-                minutesElement.textContent = String(minutes).padStart(2, "0");
-            }
-
-            if (secondsElement) {
-                secondsElement.textContent = String(seconds).padStart(2, "0");
-            }
-
-            if (message) {
-                message.textContent = isPast
-                    ? "Every day since then is another reason to be grateful for you. ❤️"
-                    : "Until we celebrate another beautiful chapter together…";
-            }
+        // Prevent negative values before the relationship start date
+        if (difference < 0) {
+            difference = 0;
         }
 
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
+        const totalSeconds = Math.floor(difference / 1000);
+
+        const days = Math.floor(totalSeconds / 86400);
+        const hours = Math.floor((totalSeconds % 86400) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        if (daysElement) {
+            daysElement.textContent = days.toLocaleString("en-US");
+        }
+
+        if (hoursElement) {
+            hoursElement.textContent = String(hours).padStart(2, "0");
+        }
+
+        if (minutesElement) {
+            minutesElement.textContent = String(minutes).padStart(2, "0");
+        }
+
+        if (secondsElement) {
+            secondsElement.textContent = String(seconds).padStart(2, "0");
+        }
+
+        if (anniversaryMessage) {
+            anniversaryMessage.textContent =
+                "We have been together for...";
+        }
     }
+
+    updateLoveCounter();
+    setInterval(updateLoveCounter, 1000);
 
 
     // ==========================================
     // NEXT ANNIVERSARY COUNTDOWN
-    // Automatically finds the next November 18
+    // AUTOMATICALLY FINDS THE NEXT NOVEMBER 18
     // ==========================================
 
     const nextButton = document.getElementById("showNextAnniversary");
@@ -124,6 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let nextAnniversaryTarget;
 
         function calculateNextAnniversary() {
+
             const now = new Date();
             let year = now.getFullYear();
 
@@ -146,6 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         function updateNextCountdown() {
+
             const now = new Date();
 
             if (now >= nextAnniversaryTarget) {
@@ -173,6 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
         calculateNextAnniversary();
 
         nextButton.addEventListener("click", () => {
+
             nextContainer.hidden = !nextContainer.hidden;
 
             nextButton.textContent = nextContainer.hidden
@@ -196,7 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ==========================================
     // FUTURE ANNIVERSARY LETTER
-    // Unlocks on November 18, 2027
+    // UNLOCKS ON NOVEMBER 18, 2027
     // ==========================================
 
     const futureSection = document.getElementById("futureLetter");
@@ -205,9 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const unlockDateString = futureSection.dataset.unlockDate;
 
-        const unlockDate = new Date(
-            `${unlockDateString}T00:00:00`
-        );
+        const unlockDate = new Date(`${unlockDateString}T00:00:00`);
 
         const lockedContent = document.getElementById("futureLocked");
         const unlockedContent = document.getElementById("futureUnlocked");
