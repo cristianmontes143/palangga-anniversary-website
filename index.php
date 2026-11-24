@@ -54,6 +54,22 @@ for ($i = 1; $i <= 45; $i++) {
     }
 }
 
+// ==========================================
+// LOAD STORED LOVE LOCKS FROM SERVER
+// ==========================================
+$locksFile = __DIR__ . "/data/locks.json";
+$serverLocks = [];
+
+if (is_file($locksFile)) {
+    $content = file_get_contents($locksFile);
+    if ($content !== false) {
+        $decoded = json_decode($content, true);
+        if (is_array($decoded)) {
+            $serverLocks = $decoded;
+        }
+    }
+}
+
 // Safely escape HTML
 function e(string $value): string {
     return htmlspecialchars($value, ENT_QUOTES, "UTF-8");
@@ -698,7 +714,17 @@ function timelineImage(string $filename): string {
                         <span>✨</span><span>✨</span><span>✨</span><span>✨</span><span>✨</span><span>✨</span>
                     </div>
                     <div class="locks-display-grid" id="locksGrid">
-                        <!-- Locks injected dynamically & persisted in localStorage -->
+                        <?php foreach ($serverLocks as $lock): ?>
+                            <div class="love-lock-item lock-<?= e($lock['style'] ?? 'rose-gold') ?>">
+                                <div class="lock-shackle"></div>
+                                <div class="lock-body">
+                                    <span class="lock-heart-icon">♥</span>
+                                    <strong class="lock-names"><?= e($lock['names'] ?? 'Me & Palangga') ?></strong>
+                                    <p class="lock-wish"><?= e($lock['wish'] ?? '') ?></p>
+                                    <small class="lock-date"><?= e($lock['date'] ?? '') ?></small>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
 
@@ -1089,6 +1115,7 @@ function timelineImage(string $filename): string {
         window.RELATIONSHIP_START = <?= json_encode($relationshipStartDate) ?>;
         window.HER_NAME = <?= json_encode($herName) ?>;
         window.PHOTOS_DATA = <?= json_encode($photos) ?>;
+        window.INITIAL_LOCKS = <?= json_encode($serverLocks) ?>;
     </script>
 
     <script src="assets/js/script.js"></script>

@@ -1008,7 +1008,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ==========================================
     // 14. ANNIVERSARY LOVE LOCK BRIDGE
-    // Persisted in localStorage
+    // Direct Server-Side Saving & Cross-Device Sync
     // ==========================================
     const defaultLocks = [
         {
@@ -1039,27 +1039,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const lockWishInput = document.getElementById("lockWishInput");
     const lockInitialsInput = document.getElementById("lockInitialsInput");
     const lockColorSelect = document.getElementById("lockColorSelect");
+    const hangLockBtn = addLockForm?.querySelector("button[type='submit']");
 
-    function getSavedLocks() {
-        const saved = localStorage.getItem("palangga_love_locks");
-        return saved ? JSON.parse(saved) : defaultLocks;
-    }
+    // Initialize from server preloaded locks, with fallback to localStorage / defaults
+    let activeLocks = Array.isArray(window.INITIAL_LOCKS) && window.INITIAL_LOCKS.length > 0
+        ? window.INITIAL_LOCKS
+        : JSON.parse(localStorage.getItem("palangga_love_locks") || JSON.stringify(defaultLocks));
 
     function renderLocks() {
         if (!locksGrid) return;
-        const locks = getSavedLocks();
         locksGrid.innerHTML = "";
 
-        locks.forEach(lock => {
+        activeLocks.forEach(lock => {
             const lockEl = document.createElement("div");
-            lockEl.className = `love-lock-item lock-${lock.style}`;
+            lockEl.className = `love-lock-item lock-${lock.style || "rose-gold"}`;
             lockEl.innerHTML = `
                 <div class="lock-shackle"></div>
                 <div class="lock-body">
                     <span class="lock-heart-icon">♥</span>
-                    <strong class="lock-names">${escapeHTML(lock.names)}</strong>
-                    <p class="lock-wish">${escapeHTML(lock.wish)}</p>
-                    <small class="lock-date">${escapeHTML(lock.date)}</small>
+                    <strong class="lock-names">${escapeHTML(lock.names || "Me & Palangga")}</strong>
+                    <p class="lock-wish">${escapeHTML(lock.wish || "")}</p>
+                    <small class="lock-date">${escapeHTML(lock.date || "")}</small>
                 </div>
             `;
             locksGrid.appendChild(lockEl);
@@ -1072,9 +1072,30 @@ document.addEventListener("DOMContentLoaded", () => {
         return p.innerHTML;
     }
 
-    renderLocks();
+    // Only re-render if locksGrid was empty or changed
+    if (locksGrid && locksGrid.children.length === 0) {
+        renderLocks();
+    }
 
-    addLockForm?.addEventListener("submit", (e) => {
+    // Sync locks from server whenever tab is focused
+    async function syncLocksFromServer() {
+        try {
+            const response = await fetch("save_lock.php", { cache: "no-store" });
+            if (response.ok) {
+                const result = await response.json();
+                if (result.success && Array.isArray(result.locks)) {
+                    activeLocks = result.locks;
+                    localStorage.setItem("palangga_love_locks", JSON.stringify(activeLocks));
+                    renderLocks();
+                }
+            }
+        } catch (e) {
+            // Keep current locks if offline
+        }
+    }
+    window.addEventListener("focus", syncLocksFromServer);
+
+    addLockForm?.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const wish = lockWishInput?.value.trim();
@@ -1083,28 +1104,57 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!wish) return;
 
-        const currentLocks = getSavedLocks();
-        const now = new Date();
-        const dateStr = now.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+        // Button saving feedback
+        if (hangLockBtn) {
+            hangLockBtn.disabled = true;
+            hangLockBtn.innerHTML = "Locking our love... <span>🔒✨</span>";
+        }
 
-        const newLock = {
+        const fallbackLock = {
             id: Date.now(),
             names,
             wish,
             style,
-            date: dateStr
+            date: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
         };
 
-        currentLocks.push(newLock);
-        localStorage.setItem("palangga_love_locks", JSON.stringify(currentLocks));
+        try {
+            // Send direct save request to server
+            const response = await fetch("save_lock.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ wish, names, style })
+            });
 
-        renderLocks();
-        lockWishInput.value = "";
-        musicBox.playSuccessFanfare();
-        showToast("🔒 Your love lock has been permanently engraved & hung on our bridge! ♡");
+            const result = await response.json();
 
-        // Scroll lock bridge into view smoothly
-        document.getElementById("lockBridge")?.scrollIntoView({ behavior: "smooth", block: "center" });
+            if (result.success && result.lock) {
+                activeLocks.push(result.lock);
+                showToast("🔒 Your love lock has been saved permanently to the website! ♡");
+            } else {
+                activeLocks.push(fallbackLock);
+                showToast("🔒 Locked on our bridge! ♡");
+            }
+        } catch (err) {
+            // Offline fallback
+            activeLocks.push(fallbackLock);
+            showToast("🔒 Locked on our bridge! ♡");
+        } finally {
+            localStorage.setItem("palangga_love_locks", JSON.stringify(activeLocks));
+            renderLocks();
+            if (lockWishInput) lockWishInput.value = "";
+
+            if (hangLockBtn) {
+                hangLockBtn.disabled = false;
+                hangLockBtn.innerHTML = "Lock Our Love Forever <span>🔒♥</span>";
+            }
+
+            musicBox.playSuccessFanfare();
+            createHeartBurstAt(window.innerWidth / 2, window.innerHeight / 2);
+
+            // Scroll lock bridge into view smoothly
+            document.getElementById("lockBridge")?.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
     });
 
 
